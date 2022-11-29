@@ -1,0 +1,32 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+
+[sub_resource type="Shader" id=2]
+code = "shader_type spatial;
+render_mode skip_vertex_transform;
+
+uniform vec3 color;
+
+varying vec3 world_vertex;
+
+void vertex()
+{
+	world_vertex = VERTEX;
+	VERTEX = (MODELVIEW_MATRIX * vec4(VERTEX, 1.0)).xyz;
+	NORMAL = (MODELVIEW_MATRIX * vec4(NORMAL, 0.0)).xyz;
+}
+
+const float GRID_THICKNESS = 0.03f;
+
+void fragment()
+{
+	vec3 fracted = fract(world_vertex);
+	fracted -= GRID_THICKNESS;
+	fracted = clamp(fracted, 0, 1);
+	bvec3 bools = greaterThan(fracted, vec3(GRID_THICKNESS));
+	float grey = float(bools.x && bools.z);
+	ALBEDO = color * vec3(grey, grey, grey);
+}"
+
+[resource]
+shader = SubResource( 2 )
+shader_param/color = Vector3( 0.9, 0.8, 0.4 )

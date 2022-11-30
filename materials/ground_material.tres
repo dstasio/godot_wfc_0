@@ -1,10 +1,13 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+[gd_resource type="ShaderMaterial" load_steps=3 format=2]
+
+[ext_resource path="res://textures/grid.png" type="Texture" id=1]
 
 [sub_resource type="Shader" id=2]
 code = "shader_type spatial;
 render_mode skip_vertex_transform;
 
-uniform vec3 color;
+uniform vec3      color;
+uniform sampler2D grid_texture;
 
 varying vec3 world_vertex;
 
@@ -15,7 +18,9 @@ void vertex()
 	NORMAL = (MODELVIEW_MATRIX * vec4(NORMAL, 0.0)).xyz;
 }
 
-const float GRID_THICKNESS = 0.03f;
+const float GRID_THICKNESS = 0.01f;
+const float GREY_LEVEL     = 0.2f;
+const float WHITE_LEVEL    = 1.0f;
 
 void fragment()
 {
@@ -24,9 +29,14 @@ void fragment()
 	fracted = clamp(fracted, 0, 1);
 	bvec3 bools = greaterThan(fracted, vec3(GRID_THICKNESS));
 	float grey = float(bools.x && bools.z);
+	
+	grey = texture(grid_texture, world_vertex.xz).r;
+	
+	grey = clamp(grey, GREY_LEVEL, WHITE_LEVEL);
 	ALBEDO = color * vec3(grey, grey, grey);
 }"
 
 [resource]
 shader = SubResource( 2 )
-shader_param/color = Vector3( 0.9, 0.8, 0.4 )
+shader_param/color = Vector3( 0.9, 0.85, 0.7 )
+shader_param/grid_texture = ExtResource( 1 )

@@ -11,6 +11,7 @@ size = Vector2( 20, 20 )
 [node name="Scene_0" type="Spatial"]
 
 [node name="player" type="Spatial" parent="."]
+unique_name_in_owner = true
 transform = Transform( 1, 0, 0, 0, 0.993221, 0.116237, 0, -0.116237, 0.993221, 0, 1.84241, 3.9846 )
 script = ExtResource( 2 )
 
@@ -21,7 +22,8 @@ transform = Transform( 0.849782, -0.362347, 0.38285, 0, 0.726287, 0.687392, -0.5
 light_color = Color( 0.960784, 0.941176, 0.878431, 1 )
 light_energy = 0.5
 
-[node name="Camera" type="Camera" parent="."]
+[node name="camera" type="Camera" parent="."]
+unique_name_in_owner = true
 transform = Transform( 1, 0, 0, 0, 0.781923, 0.623375, 0, -0.623375, 0.781923, 0, 2.87832, 3.39335 )
 script = ExtResource( 3 )
 

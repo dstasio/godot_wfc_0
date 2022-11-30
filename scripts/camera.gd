@@ -1,4 +1,5 @@
 extends Camera
+class_name Sky_Camera
 
 var is_panning: bool = false
 var pan_start: Vector3
